@@ -33,14 +33,14 @@ class PengungumanController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request,$id)
+    public function store(Request $request)
     {
         $pengunguman = new Pengunguman();
         $pengunguman->name = request('name');
         $pengunguman->konten = request('konten');
         $pengunguman->tgltampil = request('tgltampil');
         $pengunguman->tglselesai = request('tglselesai');
-        $pengunguman->kelas_id = $id;
+        $pengunguman->kelas_id = request('kelas_id');
         return redirect()->back()->with('success','Pengunguman berhasil dibuat');
     }
 
@@ -86,6 +86,8 @@ class PengungumanController extends Controller
      */
     public function destroy(Pengunguman $pengunguman)
     {
-        //
+        $pengunguman->delete();
+        return redirect()->back()->with('success','data kelas berhasil dihapus');
+
     }
 }

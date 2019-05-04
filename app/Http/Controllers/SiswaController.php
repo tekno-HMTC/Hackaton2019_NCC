@@ -35,10 +35,10 @@ class SiswaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request,$id)
+    public function store(Request $request)
     {
         $siswa = new Siswa();
-        $siswa->kelas_id = $id;
+        $siswa->kelas_id = request('kelas_id');
         $siswa->NIS = request('NIS');
         $siswa->name = request('name');
         $siswa->alamat = request('alamat');
@@ -92,7 +92,8 @@ class SiswaController extends Controller
      */
     public function destroy(Siswa $siswa)
     {
-        //
+        $siswa->delete();
+        return redirect()->back()->with('success','data siswa berhasil dihapus');
     }
 
     public function login(Request $request){

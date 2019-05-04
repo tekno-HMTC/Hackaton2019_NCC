@@ -16,6 +16,6 @@ class Siswa extends Authenticatable
     ];
 
     public function kelas(){
-        return $this->belongsTo('App\Kelas');
+        return $this->belongsTo('App\Models\Kelas');
     }
 }

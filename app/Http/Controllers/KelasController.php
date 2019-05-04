@@ -15,7 +15,7 @@ class KelasController extends Controller
     public function index()
     {
         $kelas = Kelas::all();
-        return view('kelas.index',compact('kelas'));
+        return view('guru.index',compact('kelas'));
     }
 
     /**
@@ -25,7 +25,7 @@ class KelasController extends Controller
      */
     public function create()
     {
-        return view('kelas.create');
+        return view('guru.create_kelas');
     }
 
     /**
@@ -40,7 +40,7 @@ class KelasController extends Controller
         $kelas->name = request('name');
         $kelas->save();
 
-        return redirect('/home');
+        return redirect('/home')->with('success','kelas berhasil dibuat');
     }
 
     /**
@@ -51,10 +51,11 @@ class KelasController extends Controller
      */
     public function show(Kelas $kelas)
     {
-        $siswa = $kelas->siswa();
-        $pengunguman = $kelas->pengunguman();
+        $siswas = $kelas->siswa();
+        $pengungumans = $kelas->pengunguman();
+        $jumlah = $siswas->count();
 
-        return view('kelas.show',compact(['siswa','pengunguman']));
+        return view('guru.show_kelas',compact(['kelas','siswas','pengungumans','jumlah']));
     }
 
     /**
@@ -88,6 +89,8 @@ class KelasController extends Controller
      */
     public function destroy(Kelas $kelas)
     {
-        //
+        $kelas->siswa()->delete();
+        $kelas->pengunguman()->delete();
+        return redirect()->back()->with('success','kelas berhasil dihapus');
     }
 }

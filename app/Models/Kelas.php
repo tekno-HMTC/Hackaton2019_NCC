@@ -11,10 +11,10 @@ class Kelas extends Model
     ];
 
     public function siswa(){
-        return $this->hasMany('App\Siswa');
+        return $this->hasMany('App\Models\Siswa');
     }
 
     public function pengunguman(){
-        return $this->hasMany('App\Pengunguman');
+        return $this->hasMany('App\Models\Pengunguman');
     }
 }
