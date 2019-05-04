@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app-siswa')
 
 @section('content')
 <div class="container">
@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    You are logged in as Guru!
+                    You are logged in as Siswa!
                 </div>
             </div>
         </div>

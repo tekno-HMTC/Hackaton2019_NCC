@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -35,5 +36,21 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    public function username()
+    {
+        $identity  = request()->get('nip');
+        $fieldName = filter_var($identity, FILTER_VALIDATE_EMAIL) ? 'email' : 'nip';
+        request()->merge([$fieldName => $identity]);
+        return $fieldName;
+    }
+
+    protected function validateLogin(Request $request)
+    {
+        $this->validate($request, [
+            'nip' => 'required|numeric|digits_between:5,20',
+            'password' => 'required|string',
+        ]);
     }
 }
