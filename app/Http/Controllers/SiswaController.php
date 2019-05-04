@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Siswa;
+use App\Models\Siswa;
 use Illuminate\Http\Request;
-use App\Kelas;
+use App\Models\Kelas;
 
 class SiswaController extends Controller
 {
@@ -47,7 +47,7 @@ class SiswaController extends Controller
         $siswa->save();
 
         return redirect('/home')->with('success','Siswa berhasil ditambahkan');
-    
+
     }
 
     /**

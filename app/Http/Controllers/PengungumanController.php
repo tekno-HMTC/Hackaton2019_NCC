@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Pengunguman;
+use App\Models\Pengunguman;
 use Illuminate\Http\Request;
 
 class PengungumanController extends Controller

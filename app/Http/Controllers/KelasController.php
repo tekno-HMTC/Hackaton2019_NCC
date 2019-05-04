@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Kelas;
+use App\Models\Kelas;
 use Illuminate\Http\Request;
 
 class KelasController extends Controller
