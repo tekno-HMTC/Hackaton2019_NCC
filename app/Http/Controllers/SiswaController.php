@@ -25,8 +25,8 @@ class SiswaController extends Controller
      */
     public function create()
     {
-        $kelas = Kelas::all();
-        return view('siswa.create',compact('kelas'));
+        $data['kelases'] = Kelas::all();
+        return view('guru.siswa.create', $data);
     }
 
     /**
@@ -39,14 +39,15 @@ class SiswaController extends Controller
     {
         $siswa = new Siswa();
         $siswa->kelas_id = request('kelas_id');
-        $siswa->NIS = request('NIS');
+        $siswa->NIS = request('nis');
         $siswa->name = request('name');
+        $siswa->kelas_id = request('kelas_id');
         $siswa->alamat = request('alamat');
         $siswa->no_telp = request('no_telp');
         $siswa->pin = strtoupper(str_random(6));
         $siswa->save();
 
-        return redirect('/home')->with('success','Siswa berhasil ditambahkan');
+        return redirect()->route('guru.kelas.show', $siswa->kelas_id)->with('success', 'Siswa berhasil ditambahkan');
 
     }
 
@@ -56,9 +57,9 @@ class SiswaController extends Controller
      * @param  \App\Siswa  $siswa
      * @return \Illuminate\Http\Response
      */
-    public function show(Siswa $siswa)
+    public function show($id)
     {
-        return view('siswa.show',compact('siswa'));
+        //
     }
 
     /**
@@ -67,9 +68,11 @@ class SiswaController extends Controller
      * @param  \App\Siswa  $siswa
      * @return \Illuminate\Http\Response
      */
-    public function edit(Siswa $siswa)
+    public function edit($id)
     {
-        //
+        $data['kelases'] = Kelas::all();
+        $data['siswa'] = Siswa::findOrFail($id);
+        return view('guru.siswa.edit', $data);
     }
 
     /**
@@ -79,9 +82,17 @@ class SiswaController extends Controller
      * @param  \App\Siswa  $siswa
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Siswa $siswa)
+    public function update(Request $request, $id)
     {
-        //
+        $siswa = Siswa::findOrFail($id);
+        $siswa->NIS = $request->NIS;
+        $siswa->kelas_id = $request->kelas_id;
+        $siswa->name = $request->name;
+        $siswa->alamat = $request->alamat;
+        $siswa->pin = $request->pin;
+        $siswa->save();
+
+        return redirect()->route('guru.kelas.content', $siswa->kelas_id)->with('success','Data siswa berhasil diperbarui');
     }
 
     /**
@@ -92,20 +103,9 @@ class SiswaController extends Controller
      */
     public function destroy(Siswa $siswa)
     {
+        $siswa = Siswa::findOrFail($id);
         $siswa->delete();
-        return redirect()->back()->with('success','data siswa berhasil dihapus');
-    }
 
-    public function login(Request $request){
-        $nis = request('nis');
-        $pin = request('pin');
-
-        $siswa = Siswa::where('NIS',$nis)->where('pin',$pin)->first();
-        if (!$siswa) {
-            return redirect()->back()->with('errors','NIS atau PIN salah');
-        }
-        session(['is_login' => 1]);
-
-        return redirect('/dashboard');
+        return redirect()->back()->with('success', 'Data siswa berhasil dihapus');
     }
 }

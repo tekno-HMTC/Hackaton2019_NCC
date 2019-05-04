@@ -31,6 +31,8 @@ Route::prefix('siswa')->name('siswa.')->namespace('Siswa')->group(function(){
     });
 });
 
-Route::resource('siswa', 'SiswaController');
-Route::resource('kelas', 'KelasController');
-Route::resource('pengunguman', 'PengungumanController');
+Route::prefix('guru')->name('guru.')->group(function(){
+    Route::resource('siswa', 'SiswaController');
+    Route::resource('kelas', 'KelasController');
+    Route::resource('pengumuman', 'PengungumanController');
+});

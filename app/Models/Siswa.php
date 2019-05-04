@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class Siswa extends Authenticatable
 {
     protected $fillable = [
-        'NIS', 'name', 'alamat', 'no_telp', 'pin',
+        'NIS', 'name', 'alamat', 'no_telp', 'pin', 'kelas_id',
     ];
 
     protected $hidden = [

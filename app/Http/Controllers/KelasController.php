@@ -14,8 +14,10 @@ class KelasController extends Controller
      */
     public function index()
     {
-        $kelas = Kelas::all();
-        return view('guru.index',compact('kelas'));
+        $data['no'] = 1;
+        $data['kelases'] = Kelas::all();
+
+        return view('guru.kelas.index', $data);
     }
 
     /**
@@ -25,7 +27,7 @@ class KelasController extends Controller
      */
     public function create()
     {
-        return view('guru.create_kelas');
+        return view('guru.kelas.create');
     }
 
     /**
@@ -40,7 +42,7 @@ class KelasController extends Controller
         $kelas->name = request('name');
         $kelas->save();
 
-        return redirect('/home')->with('success','kelas berhasil dibuat');
+        return redirect()->route('guru.kelas.index')->with('success','Kelas berhasil dibuat');
     }
 
     /**
@@ -49,13 +51,13 @@ class KelasController extends Controller
      * @param  \App\Kelas  $kelas
      * @return \Illuminate\Http\Response
      */
-    public function show(Kelas $kelas)
+    public function show($id)
     {
-        $siswas = $kelas->siswa();
-        $pengungumans = $kelas->pengunguman();
-        $jumlah = $siswas->count();
+        $data['no_siswa'] = 1;
+        $data['no_pengumuman'] = 1;
+        $data['kelas'] = Kelas::findOrFail($id);
 
-        return view('guru.show_kelas',compact(['kelas','siswas','pengungumans','jumlah']));
+        return view('guru.kelas.content', $data);
     }
 
     /**
@@ -64,9 +66,11 @@ class KelasController extends Controller
      * @param  \App\Kelas  $kelas
      * @return \Illuminate\Http\Response
      */
-    public function edit(Kelas $kelas)
+    public function edit($id)
     {
-        //
+        $data['kelas'] = Kelas::findOrFail($id);
+
+        return view('guru.kelas.edit', $data);
     }
 
     /**
@@ -76,9 +80,13 @@ class KelasController extends Controller
      * @param  \App\Kelas  $kelas
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Kelas $kelas)
+    public function update(Request $request, $id)
     {
-        //
+        $row = Kelas::findOrFail($id);
+        $row->name = $request->name;
+        $row->save();
+
+        return redirect()->route('guru.kelas.index')->with('success','Kelas berhasil dihapus');
     }
 
     /**
@@ -87,10 +95,13 @@ class KelasController extends Controller
      * @param  \App\Kelas  $kelas
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Kelas $kelas)
+    public function destroy($id)
     {
-        $kelas->siswa()->delete();
-        $kelas->pengunguman()->delete();
-        return redirect()->back()->with('success','kelas berhasil dihapus');
+        $kelas = Kelas::findOrFail($id);
+        $kelas->siswas()->delete();
+        $kelas->pengumuman()->delete();
+        $kelas->delete();
+
+        return redirect()->back()->with('success', 'Kelas berhasil dihapus');
     }
 }

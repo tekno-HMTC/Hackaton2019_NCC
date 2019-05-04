@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pengunguman;
+use App\Models\Kelas;
 use Illuminate\Http\Request;
 
 class PengungumanController extends Controller
@@ -24,7 +25,8 @@ class PengungumanController extends Controller
      */
     public function create()
     {
-        return view('pengunguman.create');
+        $data['kelases'] = Kelas::all();
+        return view('guru.pengumuman.create', $data);
     }
 
     /**
@@ -35,33 +37,35 @@ class PengungumanController extends Controller
      */
     public function store(Request $request)
     {
-        $pengunguman = new Pengunguman();
-        $pengunguman->name = request('name');
-        $pengunguman->konten = request('konten');
-        $pengunguman->tgltampil = request('tgltampil');
-        $pengunguman->tglselesai = request('tglselesai');
-        $pengunguman->kelas_id = request('kelas_id');
-        return redirect()->back()->with('success','Pengunguman berhasil dibuat');
+        $pengumuman = new Pengunguman;
+        $pengumuman->name = request('name');
+        $pengumuman->konten = request('konten');
+        $pengumuman->kelas_id = request('kelas_id');
+        $pengumuman->tgltampil = date("Y-m-d", strtotime($request->tgltampil));
+        $pengumuman->tglselesai = date("Y-m-d", strtotime($request->tglselesai));
+        $pengumuman->save();
+
+        return redirect()->route('guru.kelas.show', $pengumuman->kelas_id)->with('success','Pengumuman berhasil dibuat');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Pengunguman  $pengunguman
+     * @param  \App\Pengunguman  $pengumuman
      * @return \Illuminate\Http\Response
      */
-    public function show(Pengunguman $pengunguman)
+    public function show(Pengunguman $pengumuman)
     {
-        return view('pengunguman',compact('pengunguman'));
+        return view('pengumuman', compact('pengumuman'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Pengunguman  $pengunguman
+     * @param  \App\Pengunguman  $pengumuman
      * @return \Illuminate\Http\Response
      */
-    public function edit(Pengunguman $pengunguman)
+    public function edit(Pengunguman $pengumuman)
     {
         //
     }
@@ -70,10 +74,10 @@ class PengungumanController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Pengunguman  $pengunguman
+     * @param  \App\Pengunguman  $pengumuman
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Pengunguman $pengunguman)
+    public function update(Request $request, Pengunguman $pengumuman)
     {
         //
     }
@@ -81,12 +85,12 @@ class PengungumanController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Pengunguman  $pengunguman
+     * @param  \App\Pengunguman  $pengumuman
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Pengunguman $pengunguman)
+    public function destroy(Pengunguman $pengumuman)
     {
-        $pengunguman->delete();
+        $pengumuman->delete();
         return redirect()->back()->with('success','data kelas berhasil dihapus');
 
     }

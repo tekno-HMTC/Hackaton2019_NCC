@@ -25,8 +25,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $kelass = Kelas::all();
-        $siswas = Siswa::with('kelas')->paginate(10);
-        return view('home',compact(['siswas','kelass']));
+        return view('guru.home');
     }
 }
