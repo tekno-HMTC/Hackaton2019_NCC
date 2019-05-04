@@ -57,9 +57,11 @@ class SiswaController extends Controller
      * @param  \App\Siswa  $siswa
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Siswa $siswa)
     {
-        //
+        $data['siswa'] = $siswa;
+        $data['kelas'] = Kelas::findOrFail($siswa->kelas_id);
+        return view('guru.siswa.show',$data);
     }
 
     /**
@@ -89,10 +91,9 @@ class SiswaController extends Controller
         $siswa->kelas_id = $request->kelas_id;
         $siswa->name = $request->name;
         $siswa->alamat = $request->alamat;
-        $siswa->pin = $request->pin;
         $siswa->save();
 
-        return redirect()->route('guru.kelas.content', $siswa->kelas_id)->with('success','Data siswa berhasil diperbarui');
+        return redirect()->route('guru.kelas.show', $siswa->kelas_id)->with('success','Data siswa berhasil diperbarui');
     }
 
     /**

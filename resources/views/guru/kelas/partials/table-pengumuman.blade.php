@@ -2,7 +2,8 @@
   <thead>
     <th>#</th>
     <th>Nama</th>
-    <th>Tanggal</th>
+    <th>Tanggal Tampil</th>
+    <th>Tanggal Selesai</th>
     <th>Action</th>
   </thead>
   <tbody>
@@ -11,6 +12,7 @@
         <td>{{ $no_pengumuman++ }}</td>
         <td>{{ $value->name }}</td>
         <td>{{ $value->tgltampil }}</td>
+        <td>{{ $value->tglselesai }}</td>
         <td style="text-align:center;">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
             <i class="fas fa-list"></i>

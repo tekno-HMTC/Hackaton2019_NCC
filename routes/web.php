@@ -27,6 +27,7 @@ Route::prefix('siswa')->name('siswa.')->namespace('Siswa')->group(function(){
 
     Route::middleware('auth:siswa')->group(function(){
         Route::get('/home', 'HomeController@index')->name('home');
+        Route::get('/pengumuman/{id}', 'HomeController@show')->name('siswa.show');
         Route::post('/logout', 'HomeController@logout')->name('logout');
     });
 });

@@ -2,7 +2,7 @@
   <thead>
     <th>#</th>
     <th>Nama</th>
-    <th>Jumlah Peserta</th>
+    <th>Jumlah Siswa</th>
     <th>Action</th>
   </thead>
   <tbody>

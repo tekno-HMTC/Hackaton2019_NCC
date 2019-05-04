@@ -37,6 +37,7 @@ class PengungumanController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->tgltampil);
         $pengumuman = new Pengunguman;
         $pengumuman->name = request('name');
         $pengumuman->konten = request('konten');
@@ -56,7 +57,7 @@ class PengungumanController extends Controller
      */
     public function show(Pengunguman $pengumuman)
     {
-        return view('pengumuman', compact('pengumuman'));
+        return view('guru.pengumuman.show', compact('pengumuman'));
     }
 
     /**
@@ -67,7 +68,10 @@ class PengungumanController extends Controller
      */
     public function edit(Pengunguman $pengumuman)
     {
-        //
+        $data['kelases'] = Kelas::all();
+        $data['pengumuman'] = $pengumuman;
+        // dd($data);
+        return view('guru.pengumuman.edit', $data);
     }
 
     /**
@@ -79,7 +83,14 @@ class PengungumanController extends Controller
      */
     public function update(Request $request, Pengunguman $pengumuman)
     {
-        //
+        $pengumuman->name = request('name');
+        $pengumuman->konten = request('konten');
+        $pengumuman->kelas_id = request('kelas_id');
+        $pengumuman->tgltampil = date("Y-m-d", strtotime($request->tgltampil));
+        $pengumuman->tglselesai = date("Y-m-d", strtotime($request->tglselesai));
+        $pengumuman->save();
+
+        return redirect()->route('guru.kelas.show', $pengumuman->kelas_id)->with('success','Pengumuman berhasil diedit');
     }
 
     /**
