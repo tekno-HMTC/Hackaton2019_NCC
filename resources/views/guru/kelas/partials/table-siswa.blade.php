@@ -3,6 +3,7 @@
     <th>#</th>
     <th>NIS</th>
     <th>Nama</th>
+    <th>Pin</th>
     <th>Alamat</th>
     <th>No Telp</th>
     <th>Action</th>
@@ -13,6 +14,7 @@
         <td>{{ $no_siswa++ }}</td>
         <td>{{ $value->NIS }}</td>
         <td>{{ $value->name }}</td>
+        <td>{{ $value->pin }}</td>
         <td>{{ $value->alamat }}</td>
         <td>{{ $value->no_telp }}</td>
         <td style="text-align:center;">
